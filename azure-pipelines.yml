@@ -1,0 +1,24 @@
+trigger: none
+pool: self-test
+stages:
+ - stage: Build
+   displayName: Build stage
+   jobs:
+     - job: Buildjob
+       displayName: Terraform init, val & plan
+       steps:
+       - task: TerraformInstaller@1
+         displayName: terraform installer
+         inputs:
+           terraformVersion: 'latest'
+       - task: TerraformTask@5
+         displayName: terraform init
+         inputs:
+           provider: 'azurerm'
+           command: 'init'
+           workingDirectory: '$(System.DefaultWorkingDirectory)/all'
+           backendServiceArm: 'mishraself'
+           backendAzureRmStorageAccountName: 'devstorage143'
+           backendAzureRmContainerName: 'infracontainer'
+           backendAzureRmKey: 'ashis.tfstate'
+       
